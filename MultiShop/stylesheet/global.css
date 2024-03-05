@@ -1,0 +1,101 @@
+:root {
+	--teal: #2ec1ac;
+	--teal_hover: #279e8c;
+	--h-font: 'Merienda', cursive;
+	--anim-speed: 0.25s;
+}
+
+* {
+	font-family: 'Poppins', sans-serif;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	margin: 0;
+}
+
+body {
+	height: 100vh;
+	overflow: hidden;
+}
+
+.z-index-big {
+	z-index: 1000;
+}
+
+.main-content {
+	overflow: hidden auto;
+	height: calc(100vh - 4.625rem);
+}
+
+.h-font {
+	font-family: var(--h-font);
+}
+
+.custom-bg {
+	background-color: var(--teal);
+}
+
+.custom-bg:hover {
+	background-color: var(--teal_hover);
+}
+
+.h-line {
+	width: 150px;
+	margin: 0 auto;
+	height: 1.7px;
+}
+
+.bottom-alert {
+	position: fixed;
+	bottom: 0;
+	z-index: 1001;
+}
+
+.top-right-alert {
+	position: fixed;
+    right: 0;
+    top: 0;
+    margin-top: 1rem;
+    margin-right: 1rem;
+	z-index: 2000;
+}
+
+/* width */
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}
+
+#admin-panel-menu {
+	position: fixed;
+	height: 100%;
+}
+
+@media screen and (max-width: 992px) {
+	#admin-panel-menu {
+		height: auto;
+		width: 100%;
+	}
+
+	#admin-panel-content {
+		margin-top: 60px;
+	}
+}
