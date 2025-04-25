@@ -1,16 +1,58 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Shop.Master" AutoEventWireup="true" CodeBehind="myorder.aspx.cs" Inherits="MultiShop.detail" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <style>
+        .order_status {
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: green;
+            color: white;
+        }
+
+        .Deactivate {
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: skyblue;
+            color: white;
+        }
+
+        .delete {
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: deepskyblue;
+            color: white;
+        }
+
+        .pdf {
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: yellowgreen;
+            color: white;        
+        }
+
+        .order_status_processing {
+            color: green; /* or any color you prefer */
+        }
+
+        .order_status_cancelled {
+            color: red; /* or any color you prefer */
+        }
+
+        .order_status_shipped {
+            color: yellowgreen;
+        }
+    </style>
 </asp:Content>
-<asp:Content ID="Content5" runat="server" contentplaceholderid="ContentPlaceHolder1">
+<asp:Content ID="Content5" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
 
     <%@ Register Src="~/inc/Header.ascx" TagName="Header" TagPrefix="uc" %>
-     <uc:Header runat="server" />
-                
+    <uc:Header runat="server" />
+
 </asp:Content>
 
-<asp:Content ID="Content6" runat="server" contentplaceholderid="ContentPlaceHolder2">
+<asp:Content ID="Content6" runat="server" ContentPlaceHolderID="ContentPlaceHolder2">
 
-      <!-- Breadcrumb Start -->
+    <!-- Breadcrumb Start -->
     <div class="container-fluid">
         <div class="row px-xl-5">
             <div class="col-12">
@@ -25,90 +67,74 @@
     <!-- Breadcrumb End -->
 
     <!-- Products Start -->
-        <div class="container-fluid">
+    <div class="container-fluid">
         <div class="row px-xl-5">
-            <div class="col-lg-8 table-responsive mb-5">
-                <table class="table table-light table-borderless table-hover text-center mb-0">
+            <div class="col-lg-12 table-responsive mb-5">
+                <table class="table table-hover border" style="min-width: 2200px;">
                     <thead class="thead-dark">
                         <tr>
-                            <th>Products</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Total</th>
-                            <th>Cancel Order</th>
+                            <th>Order Id</th>
+                            <th>Payment Id</th>
+                            <th>Amount</th>
+                            <th>Payment Status</th>
+                            <th>Date Time</th>
+                            <th>Order Status</th>
+                            <th>Cancle Order</th>
+                            <th>Invoice PDF</th>
+                            <th>FirstName</th>
+                            <th>Lastname</th>
+                            <th>Email</th>
+                            <th>Mobile No</th>
+                            <th>Address1</th>
+                            <th>Address2</th>
+                            <th>Country</th>
+                            <th>State</th>
+                            <th>City</th>
+                            <th>Pincode</th>
                         </tr>
                     </thead>
                     <tbody class="align-middle">
-                        <asp:Repeater ID="cart_p" runat="server">
+                        <asp:Repeater ID="myorder" runat="server">
                             <ItemTemplate>
                                 <tr>
-                                    <td class="align-middle">
-                                        <img src='<%# "data:image/jpeg;base64," + Convert.ToBase64String((byte[])Eval("C_Product_image")) %>' alt="" style="width: 50px;">
-                                        <%# Eval("C_Product_name") %> </td>
-                                    <td class="align-middle">$<%# Eval("C_Price")%></td>
-                                    <td class="align-middle">
-                                        <div class="input-group quantity mx-auto" style="width: 100px;">
-                                            <div class="input-group-btn">
-                                                <button class="btn btn-sm btn-primary btn-minus" onclick="minus('<%# Eval("C_Id") %>');">
-                                                    <i class="fa fa-minus"></i>
-                                                </button>
-                                            </div>
-                                            <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="<%# Eval("C_Quantity")%>">
-                                            <div class="input-group-btn">
-                                                <button class="btn btn-sm btn-primary btn-plus" onclick="plus('<%# Eval("C_Id") %>');">
-                                                    <i class="fa fa-plus"></i>
-                                                </button>
-                                            </div>
-                                        </div>
+
+                                    <td><%# Eval("Orderid") %></td>
+                                    <td><%# Eval("Paymentid") %></td>
+                                    <td><%# Eval("Amount") %></td>
+                                    <td><%# Eval("Status") %></td>
+                                    <td><%# Eval("Date_Time") %></td>
+                                    <td class='<%# GetOrderStatusColor(Eval("order_status")) %>'><%# Eval("order_status") %>
                                     </td>
-                                    <td class="align-middle">$<%# Eval("C_Total")%></td>
-                                    <td class="align-middle">
-                                        <button class="btn btn-sm btn-danger" onclick="removeFromCart('<%# Eval("C_Id") %>');">
-                                            <i class="fa fa-times"></i>
-                                        </button>
+                                    <td align="center">
+                                        <asp:LinkButton ID="LinkButton1" runat="server" CommandArgument='<%# Eval("Id") %>' CssClass='<%# GetButtonColor(Eval("order_status")) %>' OnClick="LinkButton1_Click " Enabled='<%# IsDeleteEnabled(Eval("order_status")) %>'>Cancel</asp:LinkButton>
                                     </td>
+                                    <td align="center"> 
+                                        <asp:Button ID="btnDownloadPDF" runat="server" Text="Download PDF Invoice" CommandArgument='<%# Eval("Id") %>' CssClass="pdf" OnClick="btnDownloadPDF_Click" />
+                                    </td>
+                                    <td><%# Eval("Firstname") %></td>
+                                    <td><%# Eval("Lastname") %></td>
+                                    <td><%# Eval("Email") %></td>
+                                    <td><%# Eval("Mobile_no") %></td>
+                                    <td><%# Eval("Address_1") %></td>
+                                    <td><%# Eval("Address_2") %></td>
+                                    <td><%# Eval("Country") %></td>
+                                    <td><%# Eval("State") %></td>
+                                    <td><%# Eval("City") %></td>
+                                    <td><%# Eval("Pincode") %></td>
+
                                 </tr>
                             </ItemTemplate>
                         </asp:Repeater>
                     </tbody>
-                </table>
+                </table>                                                                                          
             </div>
             <div class="col-lg-4">
-                
-                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Cart Summary</span></h5>
-                <div class="bg-light p-30 mb-5">
-                    <div class="border-bottom pb-2">
-                        <asp:Repeater ID="Repeater1" runat="server">
-                            <ItemTemplate>
-                                <div class="d-flex justify-content-between mb-3">
-                                    <h6>Subtotal</h6>
-                                    <h6>$<%# Eval("TotalSum") %></h6>
-                                </div>
-                            </ItemTemplate>
-                        </asp:Repeater>
-                        <div class="d-flex justify-content-between">
-                            <h6 class="font-weight-medium">Shipping</h6>
-                            <h6 class="font-weight-medium">$60</h6>
-                        </div>                      
-                    </div>
-                    <div class="pt-2">
-                        <div class="d-flex justify-content-between mt-2">
-                            <h5>Total</h5>
-                            <h5>$<asp:Label ID="lblTotalWithShipping" runat="server"></asp:Label></h5>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <h6 class="font-weight-medium">Payment Status</h6>
-                            <h6 class="font-weight-medium">Paid</h6>
-                        </div>
-                        
-                    </div>
-                </div>
             </div>
         </div>
     </div>
     <!-- Products End -->
-  
-                
+
+
 
 
 
@@ -116,11 +142,11 @@
 </asp:Content>
 
 
-<asp:Content ID="Content7" runat="server" contentplaceholderid="ContentPlaceHolder3">
-                 
+<asp:Content ID="Content7" runat="server" ContentPlaceHolderID="ContentPlaceHolder3">
+
     <%@ Register Src="~/inc/Footer.ascx" TagName="Footer" TagPrefix="uc" %>
-     <uc:Footer runat="server" />  
-            
+    <uc:Footer runat="server" />
+
 </asp:Content>
 
 

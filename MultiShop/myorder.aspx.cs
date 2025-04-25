@@ -1,22 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System;
+using System.IO;
+using System.Web.UI;
+using System.Data;
+using System.Configuration;
+using CrystalDecisions.CrystalReports.Engine;
+
+using CrystalDecisions.Shared;
+
 
 namespace MultiShop
 {
     public partial class detail : System.Web.UI.Page
     {
-        string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;" +
-                                  @"AttachDbFilename=D:\asp.net\MultiShop\MultiShop\App_Data\multishop_db.mdf;" +
-                                  @"Integrated Security=True;" +
-                                  @"Connect Timeout=30";
+        private string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
         SqlConnection con;
         SqlCommand cmd;
+
+        private CrystalDecisions.CrystalReports.Engine.ReportDocument cr = new CrystalDecisions.CrystalReports.Engine.ReportDocument();
+
+        static string Crypath = "";
+
 
         void getcon()
         {
@@ -27,83 +41,202 @@ namespace MultiShop
             getcon();
             if (!IsPostBack)
             {
-                /*LoadUserData();
-                LoadUserData1();*/
+                LoadUserData();
             }
-
-
-            string sessionuser = Session["Username"]?.ToString();
-            string oid = Request.QueryString["orderId"];
-            string pid = Request.QueryString["paymentId"];
-            string fname = Request.QueryString["name"];
-            string lname = Request.QueryString["lastn"];
-            string email = Request.QueryString["email"];
-            string mo = Request.QueryString["contact"];
-            string add1 = Request.QueryString["add1"];
-            string add2 = Request.QueryString["add2"];
-            string country = Request.QueryString["coun"];
-            string state = Request.QueryString["stat"];
-            string city = Request.QueryString["ci"];
-            string pincode = Request.QueryString["pin"];
-            string stotal = Request.QueryString["totalship"];
-
-            if (sessionuser != null && oid != null && pid != null && fname != null && lname != null &&
-                  email != null && mo != null && add1 != null && add2 != null && country != null &&
-                  state != null && city != null && pincode != null && stotal != null)
-            {
-                con.Open();
-                string insertQuery = "INSERT INTO buy_product_tbl (Firstname, Lastname, Email, Mobile_no, Address_1, Address_2, Country, City, State, Pincode ,Status, Amount, Date_Time, [User], OrderId, PaymentId) " +
-                                     "VALUES (@fi, @lana, @em, @mo, @ad1, @ad2, @co, @ci, @st, @pi, @status, @Amount, @dt, @Userme, @orderid, @paymentid)";
-
-                cmd = new SqlCommand(insertQuery, con);
-                cmd.Parameters.AddWithValue("@fi", fname);
-                cmd.Parameters.AddWithValue("@lana", pincode);
-                cmd.Parameters.AddWithValue("@em", email);
-                cmd.Parameters.AddWithValue("@mo", mo);
-                cmd.Parameters.AddWithValue("@ad1", lname);
-                cmd.Parameters.AddWithValue("@ad2", add1);
-                cmd.Parameters.AddWithValue("@co", country);
-                cmd.Parameters.AddWithValue("@ci", city);
-                cmd.Parameters.AddWithValue("@st", state);
-                cmd.Parameters.AddWithValue("@pi", add2);
-                cmd.Parameters.AddWithValue("@status", "Paid");
-                cmd.Parameters.AddWithValue("@Amount", stotal);
-                cmd.Parameters.AddWithValue("@dt", DateTime.Now);
-                cmd.Parameters.AddWithValue("@Userme", sessionuser);
-                cmd.Parameters.AddWithValue("@orderid", oid);
-                cmd.Parameters.AddWithValue("@paymentid", pid);
-                cmd.ExecuteNonQuery();
-                con.Close();
-
-            }
-            
         }
-        /*private void LoadUserData()
+        private void LoadUserData()
         {
+            if (Session["Username"] == null)
+            {
+                Response.Redirect("Login.aspx");
+            }
+
+            string username = Session["Username"].ToString();
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 con.Open();
-                string query = "SELECT Id, Product_image, Product_name, Price, Del_Price FROM product_tbl";
+
+                string query = "SELECT * FROM buy_product_tbl WHERE [User] = @username";
                 SqlCommand cmd = new SqlCommand(query, con);
-                SqlDataReader reader = cmd.ExecuteReader();
+                cmd.Parameters.AddWithValue("@username", username);
 
-                ProductRepeater.DataSource = reader;
-                ProductRepeater.DataBind();
+                DataTable dataTable = new DataTable();
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    dataTable.Load(reader);
+                }
 
+                myorder.DataSource = dataTable;
+                myorder.DataBind();
             }
         }
-        private void LoadUserData1()
+
+
+
+        protected void LinkButton1_Click(object sender, EventArgs e)
         {
+            LinkButton button = (LinkButton)sender;
+
+
+            string orderId = button.CommandArgument;
+
+         
+            string updateQuery = "UPDATE buy_product_tbl SET order_status = @newStatus WHERE Id = @orderId";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(updateQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@newStatus", "Cancel Order");
+                    command.Parameters.AddWithValue("@orderId", orderId);
+
+                    connection.Open();
+
+                    command.ExecuteNonQuery();
+                    LoadUserData();
+                }
+            }
+        }
+        protected bool IsDeleteEnabled(object orderStatus)
+        {
+            if (orderStatus != null && orderStatus.ToString() == "Processing")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        protected string GetOrderStatusColor(object orderStatus)
+        {
+            if (orderStatus != null)
+            {
+                string status = orderStatus.ToString();
+                if (status.Equals("Processing", StringComparison.OrdinalIgnoreCase))
+                {
+                    return "order_status_processing";
+                }
+                else if (status.Equals("cancel order", StringComparison.OrdinalIgnoreCase))
+                {
+                    return "order_status_cancelled";
+                }
+                else if (status.Equals("shipped", StringComparison.OrdinalIgnoreCase))
+                {
+                    return "order_status_shipped";
+                }
+            }
+            return "";
+        }
+        protected string GetButtonColor(object orderStatus)
+        {
+            if (orderStatus != null && orderStatus.ToString() == "Processing")
+            {
+                return "delete";
+            }
+            else
+            {
+                return "Deactivate";
+            }
+        }
+
+        protected void btnDownloadPDF_Click(object sender, EventArgs e)
+        {
+            Button button = (Button)sender;
+            string oId = button.CommandArgument;
+          
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 con.Open();
-                string query = "SELECT Product_image, Product_name, Price, Del_Price FROM product_tbl";
+
+                string query = "SELECT * FROM buy_product_tbl WHERE [Id] = @oId";
                 SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@oId", oId);
+
                 SqlDataReader reader = cmd.ExecuteReader();
 
-                ProductImageRepeater.DataSource = reader;
-                ProductImageRepeater.DataBind();
+                if (reader.Read())
+                {
+
+                    string firstname = reader["Firstname"].ToString();
+                    string lastname = reader["Lastname"].ToString();
+                    string email = reader["Email"].ToString();
+                    string mobileNo = reader["Mobile_no"].ToString();
+                    string address1 = reader["Address_1"].ToString();
+                    string address2 = reader["Address_2"].ToString();
+                    string country = reader["Country"].ToString();
+                    string city = reader["City"].ToString();
+                    string state = reader["State"].ToString();
+                    string pincode = reader["Pincode"].ToString();
+                    string status = reader["Status"].ToString();
+                    string amount = reader["Amount"].ToString();
+                    string dateTime = reader["Date_Time"].ToString();
+                    string user = reader["User"].ToString();
+                    string orderId = reader["OrderId"].ToString();
+                    string paymentId = reader["PaymentId"].ToString();
+                    string orderStatus = reader["order_status"].ToString();
+
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        Document doc = new Document();
+                        PdfWriter.GetInstance(doc, ms);
+                        doc.Open();
+
+                        Paragraph title = new Paragraph("Invoice");
+                        title.Alignment = Element.ALIGN_CENTER;
+                        title.Font = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 18f, BaseColor.BLUE);
+                        doc.Add(title);
+
+                        doc.Add(new Paragraph("\n"));
+
+                        PdfPTable table = new PdfPTable(2); 
+                        table.WidthPercentage = 80;
+                        table.HorizontalAlignment = Element.ALIGN_CENTER;
+                        table.DefaultCell.Border = Rectangle.NO_BORDER;
+
+                        AddCell(table, "Order ID:", orderId);
+                        AddCell(table, "Payment ID:", paymentId);
+                        AddCell(table, "Amount:", amount);
+                        AddCell(table, "Payment Status:", status);
+                        AddCell(table, "Date Time:", dateTime);
+                        AddCell(table, "Order Status:", orderStatus);
+                        AddCell(table, "User:", user);
+                        AddCell(table, "First Name:", firstname);
+                        AddCell(table, "Last Name:", lastname);
+                        AddCell(table, "Email:", email);
+                        AddCell(table, "Mobile No.:", mobileNo);
+                        AddCell(table, "Delivery Address:", address1);
+                        AddCell(table, "Address:", address2);
+                        AddCell(table, "City:", city);
+                        AddCell(table, "State:", state);
+                        AddCell(table, "Pin Code:", pincode);
+                        AddCell(table, "Downloaded Invoice:", DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss"));
+
+                        doc.Add(table);
+                        doc.Close();
+
+                        Response.ContentType = "application/pdf";
+                        Response.AddHeader("content-disposition", "attachment;filename=Invoice.pdf");
+                        Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                        Response.BinaryWrite(ms.ToArray());
+                        Response.End();
+                    }
+                }
+                else
+                {
+                }
             }
-        }*/
+        }
+
+        private void AddCell(PdfPTable table, string header, string value)
+        {
+            PdfPCell cellHeader = new PdfPCell(new Phrase(header, FontFactory.GetFont(FontFactory.HELVETICA_BOLD)));
+            cellHeader.Border = Rectangle.NO_BORDER;
+            PdfPCell cellValue = new PdfPCell(new Phrase(value));
+            cellValue.Border = Rectangle.NO_BORDER;
+            table.AddCell(cellHeader);
+            table.AddCell(cellValue);
+        }
+
     }
 }

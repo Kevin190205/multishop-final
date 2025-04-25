@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -11,10 +12,9 @@ namespace MultiShop
 {
     public partial class checkout : System.Web.UI.Page
     {
-        string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;" +
-                                  @"AttachDbFilename=D:\asp.net\MultiShop\MultiShop\App_Data\multishop_db.mdf;" +
-                                  @"Integrated Security=True;" +
-                                  @"Connect Timeout=30";
+        string connString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+
+
 
         SqlConnection con;
         SqlCommand cmd;
@@ -24,7 +24,7 @@ namespace MultiShop
 
         void getcon()
         {
-            con = new SqlConnection(connectionString);
+            con = new SqlConnection(connString);
         }
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -36,57 +36,80 @@ namespace MultiShop
 
         private void LoadUserData()
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
+            string sessionuser = Session["Username"]?.ToString();
+
+            if (sessionuser != null)
             {
-                con.Open();
-                string query = "SELECT C_Product_name, C_Price, C_Total FROM Cart_tbl";
-                SqlCommand cmd = new SqlCommand(query, con);
-                SqlDataReader reader = cmd.ExecuteReader();
+                using (SqlConnection con = new SqlConnection(connString))
+                {
+                    con.Open();
+                    string query = "SELECT C_Id, C_Product_image, C_Product_name, C_Price, C_Del_Price, C_Quantity, C_Total FROM Cart_tbl WHERE C_User_Id=@sessionuser";
+                    SqlCommand cmd = new SqlCommand(query, con);
+                    cmd.Parameters.AddWithValue("@sessionuser", sessionuser);
+                    SqlDataReader reader = cmd.ExecuteReader();
 
-                Repeater1.DataSource = reader;
-                Repeater1.DataBind();
-
+                    Repeater1.DataSource = reader;
+                    Repeater1.DataBind();
+                }
+            }
+            else
+            {
+                Response.Redirect("Login.aspx");
             }
         }
 
         private void LoadUserData1()
         {
-            con.Open();
-            string query = "SELECT SUM(CAST(C_Total AS decimal)) AS TotalSum FROM Cart_tbl";
-            SqlCommand cmd = new SqlCommand(query, con);
+            string sessionuser = Session["Username"]?.ToString();
 
-            object result = cmd.ExecuteScalar();
-            decimal totalSum = result != DBNull.Value ? (decimal)result : 0; // Check for DBNull
+            if (sessionuser != null)
+            {
+                con.Open();
+                string query = "SELECT SUM(CAST(C_Total AS decimal)) AS TotalSum FROM Cart_tbl WHERE C_User_Id=@sessionuser";
+                SqlCommand cmd = new SqlCommand(query, con);
 
-            DataTable dataTable = new DataTable();
-            dataTable.Columns.Add("TotalSum", typeof(decimal));
-            dataTable.Rows.Add(totalSum);
+                cmd.Parameters.AddWithValue("@sessionuser", sessionuser);
+                object result = cmd.ExecuteScalar();
+                decimal totalSum = result != DBNull.Value ? (decimal)result : 0; // Check for DBNull
 
-            Repeater2.DataSource = dataTable;
-            Repeater2.DataBind();
+                DataTable dataTable = new DataTable();
+                dataTable.Columns.Add("TotalSum", typeof(decimal));
+                dataTable.Rows.Add(totalSum);
 
-            con.Close();
+                Repeater2.DataSource = dataTable;
+                Repeater2.DataBind();
+
+                con.Close();
+            }
+            else
+            {
+                Response.Redirect("Login.aspx");
+            }
         }
 
         private string LoadUserData2()
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
+            string sessionuser = Session["Username"]?.ToString();
+
+            using (SqlConnection con = new SqlConnection(connString))
             {
                 con.Open();
-                string query = "SELECT SUM(CAST(C_Total AS decimal)) AS total FROM Cart_tbl";
+                string query = "SELECT SUM(CAST(C_Total AS decimal)) AS total FROM Cart_tbl WHERE C_User_Id=@sessionuser";
                 SqlCommand cmd = new SqlCommand(query, con);
+
+                cmd.Parameters.AddWithValue("@sessionuser", sessionuser);
                 object result = cmd.ExecuteScalar();
 
                 if (result != DBNull.Value)
                 {
                     decimal total = (decimal)result;
-                    total += 60; // Adding shipping cost
+                    total += 60; 
                     lblTotalWithShipping.Text = total.ToString();
                     return total.ToString();
                 }
                 else
                 {
-                    lblTotalWithShipping.Text = "0"; // or any other appropriate handling
+                    lblTotalWithShipping.Text = "0"; 
                     return "0";
                 }
             }
@@ -129,8 +152,8 @@ namespace MultiShop
                     if (paymentMethod == "Cash_On_Delivery")
                     {
                         con.Open();
-                        string insertQuery = "INSERT INTO buy_product_tbl (Firstname, Lastname, Email, Mobile_no, Address_1, Address_2, Country, City, State, Pincode ,Status, Amount, Date_Time, [User], OrderId, PaymentId) " +
-                                             "VALUES (@fi, @la, @em, @mo, @ad1, @ad2, @co, @ci, @st, @pi, @status, @Amount, @dt, @Userme, @orderid, @paymentid)";
+                        string insertQuery = "INSERT INTO buy_product_tbl (Firstname, Lastname, Email, Mobile_no, Address_1, Address_2, Country, City, State, Pincode ,Status, Amount, Date_Time, [User], OrderId, PaymentId, order_status) " +
+                                             "VALUES (@fi, @la, @em, @mo, @ad1, @ad2, @co, @ci, @st, @pi, @status, @Amount, @dt, @Userme, @orderid, @paymentid, @os)";
 
                         cmd = new SqlCommand(insertQuery, con);
                         cmd.Parameters.AddWithValue("@fi", firstName);
@@ -149,8 +172,17 @@ namespace MultiShop
                         cmd.Parameters.AddWithValue("@Userme", sessionuser);
                         cmd.Parameters.AddWithValue("@orderid", "COD_ORDER");
                         cmd.Parameters.AddWithValue("@paymentid", "COD_PAYMENT");
+                        cmd.Parameters.AddWithValue("@os", "Processing");
                         cmd.ExecuteNonQuery();
                         con.Close();
+
+                        con.Open();
+                        string deleteQuery = "DELETE FROM Cart_tbl WHERE C_User_Id = @sessionuser";
+                        cmd = new SqlCommand(deleteQuery, con);
+                        cmd.Parameters.AddWithValue("@sessionuser", sessionuser);
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+
                         Response.Redirect("myorder.aspx");
                     }
                     else if (paymentMethod == "Online Payment")

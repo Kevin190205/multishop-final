@@ -15,13 +15,13 @@ namespace MultiShop
     {
 
         /// <summary>
-        /// featureRepeater control.
+        /// shirt control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater featureRepeater;
+        protected global::System.Web.UI.WebControls.LinkButton shirt;
 
         /// <summary>
         /// ProductRepeater control.
@@ -31,5 +31,23 @@ namespace MultiShop
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater ProductRepeater;
+
+        /// <summary>
+        /// featureRepeater control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater featureRepeater;
+
+        /// <summary>
+        /// HyperLinkLogin control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink HyperLinkLogin;
     }
 }

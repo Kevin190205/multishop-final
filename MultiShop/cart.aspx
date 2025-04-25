@@ -35,7 +35,8 @@
                 <table class="table table-light table-borderless table-hover text-center mb-0">
                     <thead class="thead-dark">
                         <tr>
-                            <th>Products</th>
+                            <th>Product Image</th>
+                            <th>Products Name</th>
                             <th>Price</th>
                             <th>Quantity</th>
                             <th>Total</th>
@@ -47,8 +48,9 @@
                             <ItemTemplate>
                                 <tr>
                                     <td class="align-middle">
-                                        <img src='<%# "data:image/jpeg;base64," + Convert.ToBase64String((byte[])Eval("C_Product_image")) %>' alt="" style="width: 50px;">
-                                        <%# Eval("C_Product_name") %> </td>
+                                        <img src='<%# "data:image/jpeg;base64," + Convert.ToBase64String((byte[])Eval("C_Product_image")) %>' alt="" style="width: 50px; height: 60px">
+                                        </td>
+                                    <td class="align-middle"><%# Eval("C_Product_name") %> </td>
                                     <td class="align-middle">$<%# Eval("C_Price")%></td>
                                     <td class="align-middle">
                                         <div class="input-group quantity mx-auto" style="width: 100px;">

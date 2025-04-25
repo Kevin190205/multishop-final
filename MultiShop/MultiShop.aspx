@@ -1,6 +1,19 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Shop.Master" AutoEventWireup="true" CodeBehind="MultiShop.aspx.cs" Inherits="MultiShop.MultiShop" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <style>
+        .product-img-container {
+            width: 200px; /* Set your desired width */
+            height: 200px; /* Set your desired height */
+            overflow: hidden; /* Ensure that images don't exceed the container */
+        }
+
+        .product-img {
+            width: 100%; /* Make the image fill the container horizontally */
+            height: 100%; /* Make the image fill the container vertically */
+            object-fit: cover; /* Maintain aspect ratio while covering the container */
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content5" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
 
@@ -13,7 +26,7 @@
     <div class="container-fluid mb-3">
         <div class="row px-xl-5">
             <div class="col-lg-8">
-                <div id="header-carousel" class="carousel slide carousel-fade mb-30 mb-lg-0" data-ride="carousel">
+                <div id="header-carousel" class="carousel slide carousel-fade mb-30 mb-lg-0 " data-ride="carousel">
                     <ol class="carousel-indicators">
                         <li data-target="#header-carousel" data-slide-to="0" class="active"></li>
                         <li data-target="#header-carousel" data-slide-to="1"></li>
@@ -118,185 +131,124 @@
     <div class="container-fluid pt-5">
         <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Categories</span></h2>
         <div class="row px-xl-5 pb-3">
+
+
+            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                <asp:LinkButton runat="server" ID="shirt" CssClass="text-decoration-none" OnClick="Unnamed2_Click">
+            <div class="cat-item img-zoom d-flex align-items-center mb-4">
+            <div class="overflow-hidden" style="width: 100px; height: 100px;">
+            <img class="img-fluid" src="img/s1.jpeg" alt="">
+            </div>
+            <div class="flex-fill pl-3">
+            <h6>Man's shirts</h6>
+            </div>
+            </div>
+                </asp:LinkButton>
+            </div>
+
+            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                <asp:LinkButton runat="server" CssClass="text-decoration-none" OnClick="Unnamed2_Click1">
+            <div class="cat-item img-zoom d-flex align-items-center mb-4">
+            <div class="overflow-hidden" style="width: 100px; height: 100px;">
+            <img class="img-fluid" src="image/jeans.jpeg" alt="">
+            </div>
+            <div class="flex-fill pl-3">
+            <h6>Jeans</h6>
+            </div>
+            </div>
+                </asp:LinkButton>
+            </div>
+
+            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                <asp:LinkButton runat="server" CssClass="text-decoration-none" OnClick="Unnamed3_Click">
+            <div class="cat-item img-zoom d-flex align-items-center mb-4">
+            <div class="overflow-hidden" style="width: 100px; height: 100px;">
+            <img class="img-fluid" src="image/swim.jpeg" alt="">
+            </div>
+            <div class="flex-fill pl-3">
+            <h6>Swimwear</h6>
+            </div>
+            </div>
+                </asp:LinkButton>
+            </div>
+
+
+           
+
+            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                <asp:LinkButton runat="server" CssClass="text-decoration-none" OnClick="Unnamed5_Click">
+            <div class="cat-item img-zoom d-flex align-items-center mb-4">
+            <div class="overflow-hidden" style="width: 100px; height: 100px;">
+            <img class="img-fluid" src="image/sport.jpeg" alt="">
+            </div>
+            <div class="flex-fill pl-3">
+            <h6>SportsWear</h6>
+            </div>
+            </div>
+                </asp:LinkButton>
+            </div>
+
+
+            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                <asp:LinkButton runat="server" CssClass="text-decoration-none" OnClick="Unnamed6_Click">
+            <div class="cat-item img-zoom d-flex align-items-center mb-4">
+            <div class="overflow-hidden" style="width: 100px; height: 100px;">
+            <img class="img-fluid" src="image/jumo.jpeg" alt="">
+            </div>
+            <div class="flex-fill pl-3">
+            <h6>JumpSuits</h6>
+            </div>
+            </div>
+                </asp:LinkButton>
+            </div>
+
+
+            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                <asp:LinkButton runat="server" CssClass="text-decoration-none" OnClick="Unnamed7_Click">
+            <div class="cat-item img-zoom d-flex align-items-center mb-4">
+            <div class="overflow-hidden" style="width: 100px; height: 100px;">
+            <img class="img-fluid" src="image/blazer.jpeg" alt="">
+            </div>
+            <div class="flex-fill pl-3">
+            <h6>Blazers</h6>
+
+            </div>
+            </div>
+                </asp:LinkButton>
+            </div>
+
+
+            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                <asp:LinkButton runat="server" CssClass="text-decoration-none" OnClick="Unnamed8_Click">
+            <div class="cat-item img-zoom d-flex align-items-center mb-4">
+            <div class="overflow-hidden" style="width: 100px; height: 100px;">
+            <img class="img-fluid" src="image/jackets.jpeg" alt="">
+            </div>
+            <div class="flex-fill pl-3">
+            <h6>Jackets</h6>
+            </div>
+            </div>
+                </asp:LinkButton>
+            </div>
+
+
+            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                <asp:LinkButton runat="server" CssClass="text-decoration-none" OnClick="Unnamed9_Click">
+            <div class="cat-item img-zoom d-flex align-items-center mb-4">
+            <div class="overflow-hidden" style="width: 100px; height: 100px;">
+            <img class="img-fluid" src="image/shoes.jpeg" alt="">
+            </div>
+            <div class="flex-fill pl-3">
+            <h6>Shoes</h6>
+
+            </div>
+            </div>
+                </asp:LinkButton>
+            </div>
+
+
             
 
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-            <asp:LinkButton runat="server" CssClass="text-decoration-none" >
-            <div class="cat-item img-zoom d-flex align-items-center mb-4">
-            <div class="overflow-hidden" style="width: 100px; height: 100px;">
-            <img class="img-fluid" src="img/cat-2.jpg" alt="">
-            </div>
-            <div class="flex-fill pl-3">
-            <h6>Category Name</h6>
-            <small class="text-body">100 Products</small>
-            </div>
-            </div>
-            </asp:LinkButton>
-            </div>
-
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-            <asp:LinkButton runat="server" CssClass="text-decoration-none" >
-            <div class="cat-item img-zoom d-flex align-items-center mb-4">
-            <div class="overflow-hidden" style="width: 100px; height: 100px;">
-            <img class="img-fluid" src="img/cat-2.jpg" alt="">
-            </div>
-            <div class="flex-fill pl-3">
-            <h6>Category Name</h6>
-            <small class="text-body">100 Products</small>
-            </div>
-            </div>
-            </asp:LinkButton>
-            </div>
-
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-            <asp:LinkButton runat="server" CssClass="text-decoration-none" >
-            <div class="cat-item img-zoom d-flex align-items-center mb-4">
-            <div class="overflow-hidden" style="width: 100px; height: 100px;">
-            <img class="img-fluid" src="img/cat-2.jpg" alt="">
-            </div>
-            <div class="flex-fill pl-3">
-            <h6>Category Name</h6>
-            <small class="text-body">100 Products</small>
-            </div>
-            </div>
-            </asp:LinkButton>
-            </div>
-
-
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-            <asp:LinkButton runat="server" CssClass="text-decoration-none" >
-            <div class="cat-item img-zoom d-flex align-items-center mb-4">
-            <div class="overflow-hidden" style="width: 100px; height: 100px;">
-            <img class="img-fluid" src="img/cat-2.jpg" alt="">
-            </div>
-            <div class="flex-fill pl-3">
-            <h6>Category Name</h6>
-            <small class="text-body">100 Products</small>
-            </div>
-            </div>
-            </asp:LinkButton>
-            </div>
-
-
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-            <asp:LinkButton runat="server" CssClass="text-decoration-none" >
-            <div class="cat-item img-zoom d-flex align-items-center mb-4">
-            <div class="overflow-hidden" style="width: 100px; height: 100px;">
-            <img class="img-fluid" src="img/cat-2.jpg" alt="">
-            </div>
-            <div class="flex-fill pl-3">
-            <h6>Category Name</h6>
-            <small class="text-body">100 Products</small>
-            </div>
-            </div>
-            </asp:LinkButton>
-            </div>
-
-
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-            <asp:LinkButton runat="server" CssClass="text-decoration-none">
-            <div class="cat-item img-zoom d-flex align-items-center mb-4">
-            <div class="overflow-hidden" style="width: 100px; height: 100px;">
-            <img class="img-fluid" src="img/cat-2.jpg" alt="">
-            </div>
-            <div class="flex-fill pl-3">
-            <h6>Category Name</h6>
-            <small class="text-body">100 Products</small>
-            </div>
-            </div>
-            </asp:LinkButton>
-            </div>
-
-
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-            <asp:LinkButton runat="server" CssClass="text-decoration-none" >
-            <div class="cat-item img-zoom d-flex align-items-center mb-4">
-            <div class="overflow-hidden" style="width: 100px; height: 100px;">
-            <img class="img-fluid" src="img/cat-2.jpg" alt="">
-            </div>
-            <div class="flex-fill pl-3">
-            <h6>Category Name</h6>
-            <small class="text-body">100 Products</small>
-            </div>
-            </div>
-            </asp:LinkButton>
-            </div>
-
-
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-            <asp:LinkButton runat="server" CssClass="text-decoration-none" >
-            <div class="cat-item img-zoom d-flex align-items-center mb-4">
-            <div class="overflow-hidden" style="width: 100px; height: 100px;">
-            <img class="img-fluid" src="img/cat-2.jpg" alt="">
-            </div>
-            <div class="flex-fill pl-3">
-            <h6>Category Name</h6>
-            <small class="text-body">100 Products</small>
-            </div>
-            </div>
-            </asp:LinkButton>
-            </div>
-
-
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-            <asp:LinkButton runat="server" CssClass="text-decoration-none" >
-            <div class="cat-item img-zoom d-flex align-items-center mb-4">
-            <div class="overflow-hidden" style="width: 100px; height: 100px;">
-            <img class="img-fluid" src="img/cat-2.jpg" alt="">
-            </div>
-            <div class="flex-fill pl-3">
-            <h6>Category Name</h6>
-            <small class="text-body">100 Products</small>
-            </div>
-            </div>
-            </asp:LinkButton>
-            </div>
-
-
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-            <asp:LinkButton runat="server" CssClass="text-decoration-none" >
-            <div class="cat-item img-zoom d-flex align-items-center mb-4">
-            <div class="overflow-hidden" style="width: 100px; height: 100px;">
-            <img class="img-fluid" src="img/cat-2.jpg" alt="">
-            </div>
-            <div class="flex-fill pl-3">
-            <h6>Category Name</h6>
-            <small class="text-body">100 Products</small>
-            </div>
-            </div>
-            </asp:LinkButton>
-            </div>
-
-
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-            <asp:LinkButton runat="server" CssClass="text-decoration-none" >
-            <div class="cat-item img-zoom d-flex align-items-center mb-4">
-            <div class="overflow-hidden" style="width: 100px; height: 100px;">
-            <img class="img-fluid" src="img/cat-2.jpg" alt="">
-            </div>
-            <div class="flex-fill pl-3">
-            <h6>Category Name</h6>
-            <small class="text-body">100 Products</small>
-            </div>
-            </div>
-            </asp:LinkButton>
-            </div>
-
-
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-            <asp:LinkButton runat="server" CssClass="text-decoration-none" >
-            <div class="cat-item img-zoom d-flex align-items-center mb-4">
-            <div class="overflow-hidden" style="width: 100px; height: 100px;">
-            <img class="img-fluid" src="img/cat-2.jpg" alt="">
-            </div>
-            <div class="flex-fill pl-3">
-            <h6>Category Name</h6>
-            <small class="text-body">100 Products</small>
-            </div>
-            </div>
-            </asp:LinkButton>
-            </div>
-            
 
 
         </div>
@@ -304,28 +256,42 @@
     <!-- Categories End -->
 
 
+    
     <!-- Products Start -->
     <div class="container-fluid pt-5 pb-3">
-        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Featured Products</span></h2>
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Recent Products</span></h2>
         <div class="row px-xl-5">
-            <asp:Repeater ID="featureRepeater" runat="server">
+            <asp:Repeater ID="ProductRepeater" runat="server" OnItemCommand="ProductRepeater_ItemCommand">
                 <ItemTemplate>
-                    <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                    <div class="col-lg-2 col-md-4 col-sm-6 pb-1">
                         <div class="product-item bg-light mb-4">
-                            <div class="product-img position-relative overflow-hidden">
-                                <img class="img-fluid w-100" src='<%# "data:image/jpeg;base64," + Convert.ToBase64String((byte[])Eval("F_Product_image")) %>' alt="Product Image" style="max-width: 500px; max-height: 550px;" />
-                                <div class="product-action">
-                                </div>
+                            <div class="product-img-container position-relative overflow-hidden">
+                                <img class="product-img img-fluid"
+                                    src='<%# "data:image/jpeg;base64," + Convert.ToBase64String((byte[])Eval("Product_image")) %>'
+                                    alt="Product Image" />
+
                             </div>
                             <div class="text-center py-4">
-                                <a class="h6 text-decoration-none text-truncate" href=""><%# Eval("F_Product_name") %></a>
+                                <a class="h6 text-decoration-none text-truncate" href=""><%# Eval("Product_n1") %></a>
                                 <div class="d-flex align-items-center justify-content-center mt-2">
-                                    <h5>$<%# Eval("F_Price") %></h5>
-                                    <h6 class="text-muted ml-2"><del>$<%# Eval("F_Del_Price") %></del></h6>
+                                    <h5><%# Eval("Price") %></h5>
+                                    <h6 class="text-muted ml-2"><del><%# Eval("Del_Price") %></del></h6>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-center mb-1">
-                                    <small class="fa fa-star text-primary mr-1"></small><small class="fa fa-star text-primary mr-1"></small><small class="fa fa-star text-primary mr-1"></small><small class="fa fa-star text-primary mr-1"></small><small class="fa fa-star text-primary mr-1"></small><small>(99)</small>
+                                    <small class="fa fa-star text-primary mr-1"></small>
+                                    <small class="fa fa-star text-primary mr-1"></small>
+                                    <small class="fa fa-star text-primary mr-1"></small>
+                                    <small class="far fa-star text-primary mr-1"></small>
+                                    <small class="far fa-star text-primary mr-1"></small>
+                                    <small>(99)</small>
                                 </div>
+
+                                
+                                                                    <div>
+                                        <asp:LinkButton ID="LinkButton1" runat="server" CommandArgument='<%# 
+                                        Eval("Id") %>' CommandName="cmd_detail" >View Details</asp:LinkButton> 
+                                    </div>
+
                             </div>
                         </div>
                     </div>
@@ -333,8 +299,7 @@
             </asp:Repeater>
         </div>
     </div>
-    <!-- Products End -->
-
+    <!-- Products End --
 
     <!-- Offer Start -->
     <div class="container-fluid pt-5 pb-3">
@@ -363,40 +328,30 @@
     </div>
     <!-- Offer End -->
 
+>
 
-    <!-- Products Start -->
+
+        <!-- Products Start -->
     <div class="container-fluid pt-5 pb-3">
-        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Recent Products</span></h2>
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Featured Products</span></h2>
         <div class="row px-xl-5">
-            <asp:Repeater ID="ProductRepeater" runat="server">
+            <asp:Repeater ID="featureRepeater" runat="server">
                 <ItemTemplate>
-                    <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
+                    <div class="col-lg-2 col-md-4 col-sm-6 pb-1">
                         <div class="product-item bg-light mb-4">
                             <div class="product-img position-relative overflow-hidden">
-                                <img class="img-fluid w-100" src='<%# "data:image/jpeg;base64," + Convert.ToBase64String((byte[])Eval("Product_image")) %>' alt="Product Image" style="max-width: 500px; max-height: 550px;" />
+                                <img class="img-fluid w-100" src='<%# "data:image/jpeg;base64," + Convert.ToBase64String((byte[])Eval("F_Product_image")) %>' alt="Product Image" style="max-width: 500px; max-height: 550px;" />
                                 <div class="product-action">
-                                    <button class="btn btn-outline-dark btn-square" onclick="addToCart('<%# Eval("Id") %>');">
-                                        <i class="fa fa-shopping-cart"></i>
-                                    </button>
-                                    &nbsp;&nbsp;
-                                    <button class="btn btn-outline-dark btn-square" onclick="addToWishlist('<%# Eval("Id") %>');">
-                                        <i class="far fa-heart"></i>
-                                    </button>
                                 </div>
                             </div>
                             <div class="text-center py-4">
-                                <a class="h6 text-decoration-none text-truncate" href=""><%# Eval("Product_name") %></a>
+                                <a class="h6 text-decoration-none text-truncate" href=""><%# Eval("F_Product_name") %></a>
                                 <div class="d-flex align-items-center justify-content-center mt-2">
-                                    <h5><%# Eval("Price") %></h5>
-                                    <h6 class="text-muted ml-2"><del><%# Eval("Del_Price") %></del></h6>
+                                    <h5>$<%# Eval("F_Price") %></h5>
+                                    <h6 class="text-muted ml-2"><del>$<%# Eval("F_Del_Price") %></del></h6>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-center mb-1">
-                                    <small class="fa fa-star text-primary mr-1"></small>
-                                    <small class="fa fa-star text-primary mr-1"></small>
-                                    <small class="fa fa-star text-primary mr-1"></small>
-                                    <small class="far fa-star text-primary mr-1"></small>
-                                    <small class="far fa-star text-primary mr-1"></small>
-                                    <small>(99)</small>
+                                    <small class="fa fa-star text-primary mr-1"></small><small class="fa fa-star text-primary mr-1"></small><small class="fa fa-star text-primary mr-1"></small><small class="fa fa-star text-primary mr-1"></small><small class="fa fa-star text-primary mr-1"></small><small>(99)</small>
                                 </div>
                             </div>
                         </div>
@@ -476,6 +431,23 @@
                 error: function (xhr, status, error) {
                     // Handle errors if any
                     console.error('Error adding product to wishlist:', error);
+                }
+            });
+        }
+
+        function AddToProduct(productId)
+        {
+            $.ajax({
+                url: 'AddToWishlist.aspx?productId=' + productId,
+                type: 'GET',
+                success: function (response) {
+                    // Handle the response if needed
+                    <asp:HyperLink ID="HyperLinkLogin" runat="server" NavigateUrl="~/Detail.aspx"></asp:HyperLink></p >
+
+                },
+                error: function (xhr, status, error) {
+                    // Handle errors if any
+                    console.error('Error Find product ', error);
                 }
             });
         }

@@ -10,10 +10,10 @@ namespace MultiShop
 {
     public partial class SearchProducts : System.Web.UI.Page
     {
-        string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;" +
-                                  @"AttachDbFilename=D:\asp.net\MultiShop\MultiShop\App_Data\multishop_db.mdf;" +
-                                  @"Integrated Security=True;" +
-                                  @"Connect Timeout=30";
+        string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\ayush\source\repos\MultiShop_Fixed\MultiShop\MultiShop\App_Data\multishop_db.mdf;Integrated Security=True";
+ 
+                            
+
 
         SqlConnection con;
         SqlCommand cmd;

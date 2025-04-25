@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -11,17 +12,15 @@ namespace MultiShop
 {
     public partial class GetBadgeCounts : System.Web.UI.Page
     {
-        string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;" +
-                                    @"AttachDbFilename=D:\asp.net\MultiShop\MultiShop\App_Data\multishop_db.mdf;" +
-                                    @"Integrated Security=True;" +
-                                    @"Connect Timeout=30";
+
+        private string connString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
         SqlConnection con;
         SqlCommand cmd;
 
         void getcon()
         {
-            con = new SqlConnection(connectionString);
+            con = new SqlConnection(connString);
         }
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -42,27 +41,57 @@ namespace MultiShop
         private int GetCartItemCount()
         {
             int count = 0;
-            con.Open();
-            string query = "SELECT COUNT(*) FROM Cart_tbl";
-            using (SqlCommand cmd = new SqlCommand(query, con))
+            string sessionuser = Session["Username"]?.ToString();
+
+            if (sessionuser != null)
             {
-                count = (int)cmd.ExecuteScalar();
+                using (SqlConnection con = new SqlConnection(connString))
+                {
+                    con.Open();
+                    string query = "SELECT COUNT(*) FROM Cart_tbl WHERE C_User_Id=@sessionuser";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@sessionuser", sessionuser);
+                        count = (int)cmd.ExecuteScalar();
+                    }
+                }
             }
-            con.Close();
+            else 
+            {
+                //Response.Redirect("MultiShop.aspx");
+            }
+
             return count;
         }
+
 
         private int GetWishlistItemCount()
         {
             int count = 0;
-            con.Open();
-            string query = "SELECT COUNT(*) FROM Wishlist_tbl";
-            using (SqlCommand cmd = new SqlCommand(query, con))
+            string sessionuser = Session["Username"]?.ToString();
+
+            if (sessionuser != null)
             {
-                count = (int)cmd.ExecuteScalar();
+                using (SqlConnection con = new SqlConnection(connString))
+                {
+                    con.Open();
+                    string query = "SELECT COUNT(*) FROM Wishlist_tbl WHERE W_User_Id=@sessionuser";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@sessionuser", sessionuser);
+                        count = (int)cmd.ExecuteScalar();
+                    }
+                }
             }
-            con.Close();
+            else
+            {
+                //Response.Redirect("MultiShop.aspx");
+            }
+
             return count;
         }
+
     }
 }

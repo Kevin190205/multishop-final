@@ -44,7 +44,7 @@
                         <div class="collapse navbar-collapse flex-column align-items-stretch mt-2 gap-3" id="adminDropdown">
                             <ul class="nav nav-pills flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link text-white" href="Buy_Product.aspx">Buy Product</a>
+                                    <a class="nav-link text-white" href="Buy_Product.aspx"> Orders</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-white" href="Product.aspx">Product</a>

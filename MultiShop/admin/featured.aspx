@@ -47,7 +47,7 @@
     <div class="container-fluid admin-panel-rooms__main-content" id="admin-panel-content">
         <div class="row main-content">
             <div class="col-lg-10 ms-auto p-4">
-                <h3 class="mb-4">PRODUCT</h3>
+                <h3 class="mb-4">Featured Product</h3>
                 <div class="card border-0 shadow-sm mb-4">
                     <div class="card-body">
                         <div class="text-end mb-3">

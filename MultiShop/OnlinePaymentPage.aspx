@@ -32,7 +32,7 @@
                 "handler": function (response) {
                     var orderId = response.razorpay_order_id;
                     var paymentId = response.razorpay_payment_id;
-                    var redirectUrl = "myorder.aspx?";
+                    var redirectUrl = "SuccessPage.aspx?";
                     redirectUrl += "orderId=" + orderId;
                     redirectUrl += "&paymentId=" + paymentId;
                     redirectUrl += "&name=" + encodeURIComponent(profileName);

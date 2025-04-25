@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -10,17 +11,14 @@ namespace MultiShop
 {
     public partial class contact : System.Web.UI.Page
     {
-        string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;" +
-                                  @"AttachDbFilename=D:\asp.net\MultiShop\MultiShop\App_Data\multishop_db.mdf;" +
-                                  @"Integrated Security=True;" +
-                                  @"Connect Timeout=30";
+        string connString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
         SqlConnection con;
         SqlCommand cmd;
 
         void getcon()
         {
-            con = new SqlConnection(connectionString);
+            con = new SqlConnection(connString);
         }
         protected void Page_Load(object sender, EventArgs e)
         {

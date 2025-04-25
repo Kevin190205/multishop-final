@@ -6,22 +6,21 @@ using System.Web;
 using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Configuration;
 
 namespace MultiShop
 {
     public partial class Header : System.Web.UI.UserControl
     {
-        string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;" +
-                                  @"AttachDbFilename=D:\asp.net\MultiShop\MultiShop\App_Data\multishop_db.mdf;" +
-                                  @"Integrated Security=True;" +
-                                  @"Connect Timeout=30";
+        private string connString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+
 
         SqlConnection con;
         SqlCommand cmd;
 
         void getcon()
         {
-            con = new SqlConnection(connectionString);
+            con = new SqlConnection(connString);
         }
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -53,79 +52,79 @@ namespace MultiShop
         protected void btnSearch_Click(object sender, EventArgs e)
         {
             string searchQuery = txtSearch.Text;
-            Response.Redirect("SearchProducts.aspx?search=" + searchQuery);
+            Response.Redirect("MultiShop.aspx?search=" + searchQuery);
         }
 
         protected void Men_Click(object sender, EventArgs e)
         {
-            string searchQuery = "men";
-            Response.Redirect("SearchProducts.aspx?search=" + searchQuery);
+            string searchQuery = "Men";
+            Response.Redirect("MultiShop.aspx?search=" + searchQuery);
         }
 
         protected void Women_Click(object sender, EventArgs e)
         {
-            string searchQuery = "women";
-            Response.Redirect("SearchProducts.aspx?search=" + searchQuery);
+            string searchQuery = "Women";
+            Response.Redirect("MultiShop.aspx?search=" + searchQuery);
         }
 
         protected void Baby_Click(object sender, EventArgs e)
         {
-            string searchQuery = "baby";
-            Response.Redirect("SearchProducts.aspx?search=" + searchQuery);
+            string searchQuery = "Baby";
+            Response.Redirect("MultiShop.aspx?search=" + searchQuery);
         }
 
         protected void Shirts_Click(object sender, EventArgs e)
         {
             string searchQuery = "shirt";
-            Response.Redirect("SearchProducts.aspx?search=" + searchQuery);
+            Response.Redirect("MultiShop.aspx?search=" + searchQuery);
         }
 
         protected void Jeans_Click(object sender, EventArgs e)
         {
-            string searchQuery = "jeans";
-            Response.Redirect("SearchProducts.aspx?search=" + searchQuery);
+            string searchQuery = "Jeans";
+            Response.Redirect("MultiShop.aspx?search=" + searchQuery);
         }
 
         protected void Swimwear_Click(object sender, EventArgs e)
         {
-            string searchQuery = "swimwear";
-            Response.Redirect("SearchProducts.aspx?search=" + searchQuery);
+            string searchQuery = "Swimwear";
+            Response.Redirect("MultiShop.aspx?search=" + searchQuery);
         }
 
         protected void Sleepwear_Click(object sender, EventArgs e)
         {
-            string searchQuery = "sleepwear";
-            Response.Redirect("SearchProducts.aspx?search=" + searchQuery);
+            string searchQuery = "Sleepwear";
+            Response.Redirect("MultiShop.aspx?search=" + searchQuery);
         }
 
         protected void Sportswear_Click(object sender, EventArgs e)
         {
-            string searchQuery = "sportswear";
-            Response.Redirect("SearchProducts.aspx?search=" + searchQuery);
+            string searchQuery = "Sportswear";
+            Response.Redirect("MultiShop.aspx?search=" + searchQuery);
         }
 
         protected void Jumpsuits_Click(object sender, EventArgs e)
         {
             string searchQuery = "Jumpsuits";
-            Response.Redirect("SearchProducts.aspx?search=" + searchQuery);
+            Response.Redirect("MultiShop.aspx?search=" + searchQuery);
         }
 
         protected void Blazers_Click(object sender, EventArgs e)
         {
-            string searchQuery = "blazers";
-            Response.Redirect("SearchProducts.aspx?search=" + searchQuery);
+            string searchQuery = "Blazers";
+            Response.Redirect("MultiShop.aspx?search=" + searchQuery);
         }
 
         protected void Jackets_Click(object sender, EventArgs e)
         {
             string searchQuery = "Jackets";
-            Response.Redirect("SearchProducts.aspx?search=" + searchQuery);
+            Response.Redirect("MultiShop.aspx?search=" + searchQuery);
         }
 
         protected void ShoesButton_Click(object sender, EventArgs e)
         {
-            string searchQuery = "shoes";
-            Response.Redirect("SearchProducts.aspx?search=" + searchQuery);
+            string searchQuery = "Shoes";
+            Response.Redirect("MultiShop.aspx?search=" + searchQuery);
         }
     }
 }

@@ -106,10 +106,28 @@
     <div id="loginPopup" class="popup">
     <div class="popup-content">
         <div class="modal-body">
-            <div class="form-group">
-                <asp:Label ID="Label1" runat="server" AssociatedControlID="TextBox1" Text="Product Name"></asp:Label>
-                <asp:TextBox ID="TextBox1" runat="server" CssClass="form-control"></asp:TextBox>
+             <div>
+                    <asp:DropDownList ID="TextBox1" runat="server">
+                        <asp:ListItem>Shirts</asp:ListItem>
+                        <asp:ListItem>Jeans</asp:ListItem>
+                        <asp:ListItem>Swimwear</asp:ListItem>
+                        <asp:ListItem>Sleepwear</asp:ListItem>
+                        <asp:ListItem>Sportswear</asp:ListItem>
+                        <asp:ListItem>Jumpsuits</asp:ListItem>
+                        <asp:ListItem>Blazers</asp:ListItem>
+                        <asp:ListItem>Jackets</asp:ListItem>
+                        <asp:ListItem>Shoes</asp:ListItem>
+                    </asp:DropDownList>
+                </div>
+             <div class="form-group">
+                <asp:Label ID="Label5" runat="server" AssociatedControlID="TextBox1" Text="Product Name"></asp:Label>
+                <asp:TextBox ID="TextBox4" runat="server" CssClass="form-control"></asp:TextBox>
             </div>
+            <div class="form-group">
+                <asp:Label ID="Label1" runat="server" AssociatedControlID="TextBox1" Text="Product Detail"></asp:Label>
+                <asp:TextBox ID="Detail" runat="server" CssClass="form-control"></asp:TextBox>
+            </div>
+
             <div class="form-group">
                 <asp:Label ID="Label2" runat="server" AssociatedControlID="TextBox2" Text="Price"></asp:Label>
                 <asp:TextBox ID="TextBox2" runat="server" CssClass="form-control"></asp:TextBox>
